@@ -78,7 +78,7 @@ vim.api.nvim_create_autocmd("BufEnter", {
    end,
 })
 
--- keymap for .py file
+-- keymaps for .py file
 vim.api.nvim_create_autocmd("BufEnter", {
    pattern = { "*.py" },
    callback = function()
@@ -86,6 +86,17 @@ vim.api.nvim_create_autocmd("BufEnter", {
          "n",
          "<Leader>e",
          ":split | terminal python3 %<CR>",
+         { silent = true }
+      )
+   end,
+})
+vim.api.nvim_create_autocmd("BufEnter", {
+   pattern = { "*.py" },
+   callback = function()
+      vim.keymap.set(
+         "n",
+         "<Leader>ev",
+         ":vsplit | terminal python3 %<CR>",
          { silent = true }
       )
    end,
