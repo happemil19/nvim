@@ -27,7 +27,7 @@ vim.opt.splitright = true
 
 -- highlight the line number of the cursor
 vim.opt.cursorline = true
-vim.opt.cursorlineopt = "number"
+vim.opt.cursorlineopt = "both"
 
 -- disable cursor-styling
 -- vim.opt.guicursor = ""
