@@ -45,6 +45,7 @@ return {
                { name = "luasnip" },
                { name = "nvim_lua" },
                { name = "buffer" },
+               { name = 'orgmode' },
             }),
             enabled = function()
                -- disable completion in comments

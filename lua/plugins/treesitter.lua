@@ -17,6 +17,7 @@ return {
                "comment",
                "vimdoc",
                "rust",
+               "org",
             },
             highlight = { enable = true },
             indent = { enable = true },
