@@ -89,8 +89,10 @@ map("n", "bn", ":bn<CR>", {})
 map("n", "bp", ":bp<CR>", {})
 
 -- tabs navigate
-map("n", "<Tab>", ":tabnext<CR>", {})
-map("n", "<S-Tab>", ":tabprevious<CR>", {})
+map("n", "tn", ":tabnext<CR>", {})
+map("n", "tp", ":tabprevious<CR>", {})
+map("n", "tc", ":tabnew<CR>", {})
+map("n", "tx", ":tabclose<CR>", {})
 
 -- split windows
 map("n", "vs", ":vs<CR>", {})

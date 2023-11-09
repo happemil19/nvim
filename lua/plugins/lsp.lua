@@ -37,7 +37,7 @@ local languages = {
    "tsserver",
    "emmet_ls",
    "eslint",
-   "pyright",
+   "pylsp",
    "gopls",
    "texlab",
 }
@@ -45,7 +45,7 @@ local languages = {
 return {
    {
       "neovim/nvim-lspconfig",
-      dependencies = { 
+      dependencies = {
          "hrsh7th/cmp-nvim-lsp",
          "williamboman/mason.nvim",
          "williamboman/mason-lspconfig.nvim",
@@ -71,7 +71,56 @@ return {
             end,
          })
 
-         for _, language in pairs(languages) do
+         lspconfig.pylsp.setup({
+            capabilities = capabilities,
+            -- settings = {
+            --    pylsp = {
+            --       configurationSources = "flake8",
+            --       plugins = {
+            --          autopep8 = {
+            --             enabled = false,
+            --          },
+            --          flake8 = {
+            --             enabled = true,
+            --             maxLineLength = 100,
+            --             ignore = "E252",
+            --          },
+            --          jedi_definition = {
+            --             enabled = false,
+            --          },
+            --          jedi_completion = {
+            --             enabled = false,
+            --          },
+            --          jedi_hover = {
+            --             enabled = false,
+            --          },
+            --          jedi_references = {
+            --             enabled = false,
+            --          },
+            --          pylint = {
+            --             enabled = false,
+            --          },
+            --          pycodestyle = {
+            --             enabled = false,
+            --          },
+            --          pyflakes = {
+            --             enabled = false,
+            --          },
+            --          mccabe = {
+            --             enabled = false,
+            --          },
+            --          preload = {
+            --             enabled = false,
+            --          },
+            --          yapf = {
+            --             enabled = false,
+            --          },
+            --       },
+            --    },
+            -- },
+         })
+
+       for _, language in pairs(languages) do
             lspconfig[language].setup({
                capabilities = capabilities,
             })
@@ -86,7 +135,7 @@ return {
 
          vim.lsp.handlers["textDocument/publishDiagnostics"] =
             vim.lsp.with(vim.lsp.diagnostic.on_publish_diagnostics, {
-               virtual_text = false,
+               virtual_text = true,
             })
       end,
    },
@@ -105,7 +154,7 @@ return {
             "tsserver",
             "eslint",
             "tailwindcss",
-            "pyright",
+            "pylsp",
             "gopls",
          },
       },

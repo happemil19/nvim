@@ -32,7 +32,7 @@ vim.opt.cursorlineopt = "both"
 -- disable cursor-styling
 -- vim.opt.guicursor = ""
 
-vim.opt.cursorline = true
+vim.opt.mouse = "a"    -- turn on a mouse
+vim.opt.background = 'dark'      -- select view of a theme
 vim.opt.termguicolors = true
-vim.opt.mouse = "a"
-vim.opt.background = 'dark'
+vim.opt.wrap = false       -- turn off wrap a text

@@ -27,7 +27,7 @@ return {
       dependencies = { "nvim-tree/nvim-web-devicons" },
       opts = {
          options = {
-            -- theme = "vscode",
+            theme = "ayu_dark",
             globalstatus = true,
             component_separators = nil,
             section_separators = nil,
@@ -35,7 +35,17 @@ return {
          },
          sections = {
             lualine_a = {'mode'},
-            lualine_b = {'branch', 'diff', 'diagnostics'},
+            lualine_b = {'branch', 'diff',
+               {
+                  'diagnostics',
+                  symbols = {
+                     error = 'E', -- ' ',
+                     warn  = 'W', -- ' ',
+                     info  = 'I', -- ' ',
+                     hint  = 'H', -- ' '
+                  },
+               },
+            },
             lualine_c = {'filename'},
             lualine_x = {'encoding', 'fileformat', 'filetype'},
             lualine_y = {'progress'},
