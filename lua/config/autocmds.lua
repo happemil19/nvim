@@ -52,6 +52,16 @@ vim.api.nvim_create_autocmd("CmdlineLeave", {
    end,
 })
 
+-- keep and load file foldering
+vim.api.nvim_create_autocmd("BufWinLeave", {
+   desc = "save view (folds), when closing file",
+   command = "mkview",
+})
+vim.api.nvim_create_autocmd("BufWinEnter", {
+   desc = "load view (folds), when opening file",
+   command = "silent! loadview"
+})
+
 -- keymap for .cpp file
 vim.api.nvim_create_autocmd("BufEnter", {
    pattern = { "*.cpp", "*.cc" },
