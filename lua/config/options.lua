@@ -29,10 +29,15 @@ vim.opt.splitright = true
 vim.opt.cursorline = true
 vim.opt.cursorlineopt = "both"
 
--- disable cursor-styling
--- vim.opt.guicursor = ""
+-- scroll limits for cursor walking before the screen will be centered by cursor
+vim.opt.scrolloff = 8  -- vertical
+vim.opt.sidescrolloff = 8  -- horizontal
 
-vim.opt.mouse = "a"    -- turn on a mouse
-vim.opt.background = 'dark'      -- select view of a theme
+-- folders
+vim.opt.foldcolumn = '3'
+-- vim.opt.fillchars = 'diff:/,fold: ,eob: ,foldopen:,foldsep: ,foldclose:'
+
+vim.opt.mouse = "a"  -- turn on a mouse
+vim.opt.background = 'dark'  -- select view of a theme
 vim.opt.termguicolors = true
-vim.opt.wrap = false       -- turn off wrap a text
+vim.opt.wrap = false  -- turn off wrap a text
