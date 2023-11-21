@@ -27,7 +27,7 @@ return {
       dependencies = { "nvim-tree/nvim-web-devicons" },
       opts = {
          options = {
-            theme = "ayu_dark",
+            theme = "gruvbox_dark",
             globalstatus = true,
             component_separators = nil,
             section_separators = nil,
