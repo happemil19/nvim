@@ -54,10 +54,16 @@ vim.api.nvim_create_autocmd("CmdlineLeave", {
 
 -- keep and load file foldering
 vim.api.nvim_create_autocmd("BufWinLeave", {
+   pattern = {
+      "*.py", "*.html", "*.css", "*.cpp", "*.cc", "*.go", "*.md", "*.lua", "*.yaml", "*.yml"
+   },
    desc = "save view (folds), when closing file",
    command = "mkview",
 })
 vim.api.nvim_create_autocmd("BufWinEnter", {
+   pattern = {
+      "*.py", "*.html", "*.css", "*.cpp", "*.cc", "*.go", "*.md", "*.lua", "*.yaml", "*.yml"
+   },
    desc = "load view (folds), when opening file",
    command = "silent! loadview"
 })
