@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 -- install lazy.nvim
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
@@ -14,3 +15,14 @@ vim.opt.rtp:prepend(lazypath)
 
 -- load plugins
 require("lazy").setup("plugins")
+=======
+require("lazy").setup({
+  -- Импортируем настройки плагинов
+  spec = {
+    { import = "plugins.lsp" },
+    { import = "plugins.cmp" },
+    { import = "plugins.ui" },
+    { import = "plugins.tools" },
+  },
+})
+>>>>>>> b704291 (reborning ;)
