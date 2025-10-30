@@ -1,12 +1,3 @@
-<<<<<<< HEAD
-require("config.options")
-require("config.mappings")
-require("config.autocmds")
-require("config.lazy")
--- require("vscode").load()
-
-vim.cmd("colorscheme vscode")
-=======
 -- Автоматическая установка lazy.nvim если не установлен
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
@@ -30,4 +21,3 @@ vim.opt.rtp:prepend(lazypath)
 require("config.options")
 require("config.keymaps")
 require("config.lazy")
->>>>>>> b704291 (reborning ;)
