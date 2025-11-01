@@ -1,0 +1,30 @@
+{
+  "diagnostics": {
+    "globals": [
+      "vim",
+      "describe",
+      "it",
+      "before_each",
+      "after_each",
+      "pending"
+    ],
+    "disable": [
+      "undefined-global",
+      "unused-local",
+      "unused-var",
+      "lowercase-global"
+    ]
+  },
+  "workspace": {
+    "library": [
+      "/usr/share/nvim/runtime/lua",
+      "/usr/share/nvim/runtime/lua/vim",
+      "/usr/share/nvim/runtime/lua/vim/lsp"
+    ],
+    "checkThirdParty": false,
+    "maxPreload": 10000
+  },
+  "telemetry": {
+    "enable": false
+  }
+}
