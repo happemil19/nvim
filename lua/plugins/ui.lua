@@ -37,6 +37,10 @@ return {
     "nvim-lualine/lualine.nvim",
     dependencies = { "nvim-tree/nvim-web-devicons" },
     config = function()
+      -- local function git_branch()
+      --   local branch = vim.b.git_branch or ""
+      --   return branch ~= "" and " " .. branch or ""
+      -- end
       require("lualine").setup({
         options = {
           theme = "catppuccin",

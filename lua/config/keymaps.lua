@@ -84,3 +84,35 @@ end
 -- Keymaps для замены
 keymap("v", "<leader>r", function() replace_text(true) end, { desc = "Replace selected text with confirmation" })
 keymap("v", "<leader>R", function() replace_text(false) end, { desc = "Replace selected text without confirmation" })
+
+-- Git keymaps
+keymap("n", "<leader>gg", "<cmd>LazyGit<CR>", { desc = "Open LazyGit" })
+keymap("n", "<leader>gs", "<cmd>Git<CR>", { desc = "Git status" })
+keymap("n", "<leader>gd", "<cmd>Gdiffsplit<CR>", { desc = "Git diff" })
+keymap("n", "<leader>gc", "<cmd>Git commit<CR>", { desc = "Git commit" })
+keymap("n", "<leader>gp", "<cmd>Git push<CR>", { desc = "Git push" })
+keymap("n", "<leader>gP", "<cmd>Git pull<CR>", { desc = "Git pull" })
+keymap("n", "<leader>gb", "<cmd>Git blame<CR>", { desc = "Git blame" })
+keymap("n", "<leader>gB", "<cmd>GitBlameToggle<CR>", { desc = "Toggle git blame" })
+
+-- Gitsigns keymaps
+keymap("n", "<leader>gj", function() require('gitsigns').next_hunk() end, { desc = "Next hunk" })
+keymap("n", "<leader>gk", function() require('gitsigns').prev_hunk() end, { desc = "Previous hunk" })
+keymap("n", "<leader>gh", function() require('gitsigns').preview_hunk() end, { desc = "Preview hunk" })
+keymap("n", "<leader>gr", function() require('gitsigns').reset_hunk() end, { desc = "Reset hunk" })
+keymap("n", "<leader>gR", function() require('gitsigns').reset_buffer() end, { desc = "Reset buffer" })
+keymap("n", "<leader>gS", function() require('gitsigns').stage_hunk() end, { desc = "Stage hunk" })
+keymap("n", "<leader>gu", function() require('gitsigns').undo_stage_hunk() end, { desc = "Undo stage hunk" })
+
+-- Diffview keymaps
+keymap("n", "<leader>gD", "<cmd>DiffviewOpen<CR>", { desc = "Open diffview" })
+keymap("n", "<leader>gC", "<cmd>DiffviewClose<CR>", { desc = "Close diffview" })
+keymap("n", "<leader>gH", "<cmd>DiffviewFileHistory<CR>", { desc = "File history" })
+
+-- Быстрое добавление
+keymap("n", "<leader>ga", "<cmd>Git add %<CR>", { desc = "Git add current file" })
+keymap("n", "<leader>gA", "<cmd>Git add .<CR>", { desc = "Git add all" })
+
+-- Быстрое добавление и коммит
+keymap("n", "<leader>gac", "<cmd>GitAddCommit<CR>", { desc = "Git add all and commit" })
+keymap("n", "<leader>gap", "<cmd>GitAddCommitPush<CR>", { desc = "Git add all, commit and push" })

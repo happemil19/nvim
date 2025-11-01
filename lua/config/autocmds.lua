@@ -1,7 +1,55 @@
 local M = {}
 
-function M.setup()
-  -- Создаем augroup
+local function setup_git_autocmds()
+  local git_group = vim.api.nvim_create_augroup("git_integration", { clear = true })
+
+  -- Автоматически обновлять gitsigns при изменениях
+  vim.api.nvim_create_autocmd({"BufWritePost", "TextChanged"}, {
+    pattern = "*",
+    callback = function()
+      if vim.b.gitsigns_head then
+        require('gitsigns').refresh()
+      end
+    end,
+    group = git_group,
+    desc = "Refresh gitsigns on file change"
+  })
+
+  -- Настройки для fugitive buffers
+  vim.api.nvim_create_autocmd("FileType", {
+    pattern = "fugitive",
+    callback = function()
+      -- Закрытие fugitive buffer с q
+      vim.keymap.set('n', 'q', '<cmd>bd<CR>', { buffer = true, desc = "Close fugitive buffer" })
+    end,
+    group = git_group,
+    desc = "Settings for fugitive buffers"
+  })
+
+  -- Показывать текущую ветку в статусной строке (если используете lualine)
+  vim.api.nvim_create_autocmd({"BufEnter", "DirChanged"}, {
+    pattern = "*",
+    callback = function()
+      vim.b.git_branch = vim.fn.system("git branch --show-current 2>/dev/null | tr -d '\\n'")
+    end,
+    group = git_group,
+    desc = "Update git branch info"
+  })
+  --
+  -- Пользовательские Git команды
+  vim.api.nvim_create_user_command("GitAddCommit", function()
+    vim.cmd("Git add .")
+    vim.cmd("Git commit")
+  end, { desc = "Add all and commit" })
+
+  vim.api.nvim_create_user_command("GitAddCommitPush", function()
+    vim.cmd("Git add .")
+    vim.cmd("Git commit")
+    vim.cmd("Git push")
+  end, { desc = "Add all, commit and push" })
+end
+
+local function setup_indent_autocmds()
   local indent_group = vim.api.nvim_create_augroup("custom_indentation", { clear = true })
 
   -- Функция для применения настроек отступов
@@ -53,6 +101,20 @@ function M.setup()
     group = indent_group,
     desc = "Set tab indentation for Makefiles"
   })
+
+  -- Автокоманды для Fugitive
+  vim.api.nvim_create_autocmd("FileType", {
+    pattern = "fugitive",
+    callback = function()
+      -- Keymaps для fugitive buffers
+      vim.keymap.set('n', 'q', '<cmd>bd<CR>', { buffer = true, desc = "Close fugitive buffer" })
+    end,
+  })
+end
+
+function M.setup()
+  setup_indent_autocmds()
+  setup_git_autocmds()
 end
 
 if not M._setup_called then
