@@ -10,14 +10,18 @@ vim.opt.expandtab = true
 -- Searching
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
-vim.opt.hlsearch = false
+vim.opt.hlsearch = true
 vim.opt.showmatch = true
 vim.opt.showcmd = true
 
+-- Encoding adn fonts
+vim.opt.encoding = "utf-8"
+vim.opt.fileencoding = "utf-8"
+
 -- UI
-vim.opt.termguicolors = true
 vim.opt.signcolumn = "yes"
 vim.opt.cursorline = true
+vim.opt.wrap = false
 
 -- Navigation
 vim.opt.ruler = true
@@ -27,4 +31,9 @@ vim.opt.scrolloff = 4
 vim.opt.scrolloff = 4
 vim.opt.sidescrolloff = 8
 vim.opt.mouse = "a"
-vim.opt.wrap = false
+
+-- System bufffer
+vim.opt.clipboard = "unnamedplus"
+
+-- Turn off emoji
+-- vim.opt.emoji = false
