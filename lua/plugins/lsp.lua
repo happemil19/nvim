@@ -138,18 +138,40 @@ return {
             vim.lsp.start({
               name = "lua_ls",
               cmd = { "lua-language-server" },
-              root_dir = root_dir,
+              -- root_dir = root_dir,
+              root_dir = vim.fs.dirname(vim.fs.find({ ".git", "init.lua" }, { upward = true })[1]),
               capabilities = capabilities,
               on_attach = on_attach,
               settings = {
                 Lua = {
-                  runtime = { version = "LuaJIT" },
-                  diagnostics = { 
-                    globals = { "vim" } 
+                  runtime = {
+                    version = "LuaJIT",
+                    special = {
+                      require = "require",
+                    }
+                  },
+                  diagnostics = {
+                    globals = {
+                      -- Neovim globals
+                      "vim",
+                      -- Testing globals
+                      "describe", "it", "before_each", "after_each", "pending",
+                      -- Plugin manager globals
+                      "lazy", "packer", "paq",
+                    },
+                    disable = { "undefined-global" },
                   },
                   workspace = {
-                    library = vim.api.nvim_get_runtime_file("", true),
-                    checkThirdParty = false,
+                    library = {
+                      vim.api.nvim_get_runtime_file("", true),
+                      -- [vim.fn.expand("$VIMRUNTIME/lua")] = true,
+                      -- [vim.fn.expand("$VIMRUNTIME/lua/vim")] = true,
+                      -- [vim.fn.expand("$VIMRUNTIME/lua/vim/lsp")] = true,
+                      -- [vim.fn.stdpath("config") .. "/lua"] = true,
+                      -- [vim.fn.stdpath("data") .. "/lazy/lazy.nvim/lua"] = true,
+                      checkThirdParty = false,
+                      maxPreload = 10000,
+                    },
                   },
                   telemetry = { enable = false },
                 },
@@ -282,6 +304,14 @@ return {
           prefix = "●",
         },
         signs = true,
+        signs = {
+          text = {
+            [vim.diagnostic.severity.ERROR] = " ",
+            [vim.diagnostic.severity.WARN] = " ",
+            [vim.diagnostic.severity.INFO] = " ",
+            [vim.diagnostic.severity.HINT] = " ",
+          },
+        },
         underline = true,
         update_in_insert = false,
         severity_sort = true,
@@ -294,11 +324,11 @@ return {
       })
 
       -- Значки для диагностики
-      local signs = { Error = " ", Warn = " ", Hint = " ", Info = " " }
-      for type, icon in pairs(signs) do
-        local hl = "DiagnosticSign" .. type
-        vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
-      end
+      -- local signs = { Error = " ", Warn = " ", Hint = " ", Info = " " }
+      -- for type, icon in pairs(signs) do
+      --   local hl = "DiagnosticSign" .. type
+      --   vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
+      -- end
 
       -- Keymaps для диагностики
       vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = "Previous diagnostic" })
