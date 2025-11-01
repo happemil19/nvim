@@ -16,13 +16,13 @@ return {
     config = function()
       local telescope = require("telescope")
       local builtin = require("telescope.builtin")
-      
+
       telescope.setup({
         defaults = {
           layout_strategy = "horizontal",
-          layout_config = { 
-            height = 0.95, 
-            width = 0.95 
+          layout_config = {
+            height = 0.95,
+            width = 0.95
           },
           mappings = {
             i = {
