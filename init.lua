@@ -12,13 +12,7 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
--- Loading main modules
--- require('config.options')
--- require('config.keymaps')
--- require('config.plugins')
--- require('config.lsp')
--- require('config.cmp')
-require("config.autocmds")
 require("config.options")
 require("config.keymaps")
+require("config.autocmds")
 require("config.lazy")

@@ -1,15 +1,24 @@
-local function setup_autocmds()
+local M = {}
+
+function M.setup()
   -- Создаем augroup
   local indent_group = vim.api.nvim_create_augroup("custom_indentation", { clear = true })
+
+  -- Функция для применения настроек отступов
+  local function set_indentation(ts, sw)
+    vim.bo.tabstop = ts
+    vim.bo.shiftwidth = sw
+    vim.bo.autoindent = true
+    vim.bo.expandtab = true
+    -- vim.bo.softtabstop = ts
+    -- vim.bo.smartindent = true
+  end
 
   -- 4 пробела
   vim.api.nvim_create_autocmd("FileType", {
     pattern = { "python", "css", "sh", "dockerfile", "cpp", "perl" },
     callback = function()
-      vim.bo.tabstop = 4
-      vim.bo.shiftwidth = 4
-      vim.bo.autoindent = true
-      vim.bo.expandtab = true
+      set_indentation(4, 4)
     end,
     group = indent_group,
     desc = "Set 4-space indentation"
@@ -19,10 +28,7 @@ local function setup_autocmds()
   vim.api.nvim_create_autocmd("FileType", {
     pattern = { "javascript", "html", "htmldjango", "typescript" },
     callback = function()
-      vim.bo.tabstop = 2
-      vim.bo.shiftwidth = 2
-      vim.bo.autoindent = true
-      vim.bo.expandtab = true
+      set_indentation(2, 2)
     end,
     group = indent_group,
     desc = "Set 2-space indentation"
@@ -32,10 +38,7 @@ local function setup_autocmds()
   vim.api.nvim_create_autocmd("FileType", {
     pattern = { "lua" },
     callback = function()
-      vim.bo.tabstop = 2
-      vim.bo.shiftwidth = 2
-      vim.bo.autoindent = true
-      vim.bo.expandtab = true
+      set_indentation(2, 2)
     end,
     group = indent_group,
     desc = "Set 2-space indentation for Lua"
@@ -45,16 +48,16 @@ local function setup_autocmds()
   vim.api.nvim_create_autocmd("FileType", {
     pattern = { "make" },
     callback = function()
-      vim.bo.tabstop = 4
-      vim.bo.shiftwidth = 4
-      vim.bo.autoindent = true
-      vim.bo.expandtab = false  -- NO expandtab для Makefile!
+      set_indentation(4, 4)
     end,
     group = indent_group,
     desc = "Set tab indentation for Makefiles"
   })
 end
 
-return {
-  setup = setup_autocmds
-}
+if not M._setup_called then
+  M.setup()
+  M._setup_called = true
+end
+
+return M
