@@ -1,15 +1,35 @@
 return {
-  -- Цветовая схема
   {
-    "catppuccin/nvim",
-    name = "catppuccin",
+    "ellisonleao/gruvbox.nvim",
     priority = 1000,
     config = function()
-      require("catppuccin").setup({
-        flavour = "mocha",
-        transparent_background = false,
+      require("gruvbox").setup({
+        contrast = "hard", -- можно использовать "soft", "hard" или "medium"
+        transparent_mode = false,
+        terminal_colors = true,
+        undercurl = true,
+        bold = true,
+        italic = {
+          strings = true,
+          comments = true,
+          operators = false,
+          folds = true,
+        },
+        strikethrough = true,
+        invert_selection = false,
+        invert_signs = false,
+        invert_tabline = false,
+        invert_intend_guides = false,
+        inverse = true, -- invert background for search, diffs, statuslines etc.
+        overrides = {},
+        dim_inactive = false,
       })
-      vim.cmd.colorscheme("catppuccin-mocha")
+
+      -- Установка цветовой схемы
+      vim.cmd.colorscheme("gruvbox")
+
+      -- Установка фона (dark/light)
+      vim.o.background = "dark" -- или "light" для светлой темы
     end,
   },
 
@@ -43,7 +63,7 @@ return {
       -- end
       require("lualine").setup({
         options = {
-          theme = "catppuccin",
+          theme = "gruvbox",
           component_separators = { left = "│", right = "│" },
         },
         sections = {
