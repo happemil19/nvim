@@ -116,3 +116,15 @@ keymap("n", "<leader>gA", "<cmd>Git add .<CR>", { desc = "Git add all" })
 -- Быстрое добавление и коммит
 keymap("n", "<leader>gac", "<cmd>GitAddCommit<CR>", { desc = "Git add all and commit" })
 keymap("n", "<leader>gap", "<cmd>GitAddCommitPush<CR>", { desc = "Git add all, commit and push" })
+
+-- Telescope
+keymap("n", "<leader>ff", "<cmd>Telescope find_files<CR>", { desc = "Find files" })
+keymap("n", "<leader>fg", "<cmd>Telescope live_grep<CR>", { desc = "Live grep" })
+keymap("n", "<leader>fb", "<cmd>Telescope buffers<CR>", { desc = "Find buffers" })
+keymap("n", "<leader>fh", "<cmd>Telescope help_tags<CR>", { desc = "Help tags" })
+
+-- LSP
+keymap('n', 'gd', vim.lsp.buf.definition, { desc = "Go to definition" })
+keymap('n', 'K', vim.lsp.buf.hover, { desc = "Hover documentation" })
+keymap('n', '<leader>rn', vim.lsp.buf.rename, { desc = "Rename symbol" })
+keymap('n', '<leader>ca', vim.lsp.buf.code_action, { desc = "Code action" })
