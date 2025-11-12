@@ -22,6 +22,9 @@ vim.opt.fileencoding = "utf-8"
 vim.opt.signcolumn = "yes"
 vim.opt.cursorline = true
 vim.opt.wrap = false
+vim.o.termguicolors = true
+vim.g.gruvbox_italic = 1
+vim.g.gruvbox_contrast_dark = "hard"
 
 -- Navigation
 vim.opt.ruler = true
