@@ -31,7 +31,7 @@ keymap("n", "<Right>", "<cmd>vertical resize +2<CR>", { desc = "Increase window 
 -- Buffers
 keymap("n", "<S-l>", "<cmd>bnext<CR>", { desc = "Next buffer" })
 keymap("n", "<S-h>", "<cmd>bprevious<CR>", { desc = "Previous buffer" })
-keymap("n", "<leader>x", "<cmd>bd<CR>", { desc = "Close buffer" })
+-- <leader>x — Trouble (диагностики), закрытие буфера: <leader>bd
 
 keymap("n", "<F3>", "<cmd>set hlsearch!", { desc = "clean last search highlighting" })
 

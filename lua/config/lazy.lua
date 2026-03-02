@@ -5,5 +5,6 @@ require("lazy").setup({
     { import = "plugins.cmp" },
     { import = "plugins.ui" },
     { import = "plugins.tools" },
+    { import = "plugins.python" },
   },
 })
