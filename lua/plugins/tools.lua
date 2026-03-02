@@ -227,11 +227,12 @@ return {
       "nvim-lua/plenary.nvim",
     },
     config = function()
-      vim.g.lazygit_floating_window_winblend = 0 -- прозрачность окна
-      vim.g.lazygit_floating_window_scaling_factor = 0.9 -- масштаб окна
-      vim.g.lazygit_floating_window_border_chars = {'╭','─', '╮', '│', '╯','─','╰','│'} -- рамка окна
-      vim.g.lazygit_floating_window_use_plenary = 0 -- использовать plenary.nvim (0 для использования встроенного)
-      vim.g.lazygit_use_neovim_remote = 1 -- использовать neovim-remote, если установлено
+      vim.g.lazygit_floating_window_winblend = 0
+      vim.g.lazygit_floating_window_scaling_factor = 0.9
+      vim.g.lazygit_floating_window_border_chars = { "╭", "─", "╮", "│", "╯", "─", "╰", "│" }
+      vim.g.lazygit_floating_window_use_plenary = 0
+      -- Выключено: с nvr окно LazyGit теряется при открытии редактора (коммит/файл)
+      vim.g.lazygit_use_neovim_remote = 0
     end,
   },
 
@@ -313,6 +314,9 @@ return {
         { "<leader>xw", "<cmd>TroubleToggle workspace_diagnostics<cr>", desc = "Workspace diagnostics" },
         { "<leader>xq", "<cmd>TroubleToggle quickfix<cr>", desc = "Quickfix" },
         { "<leader>xl", "<cmd>TroubleToggle loclist<cr>", desc = "Loclist" },
+
+        { "<leader>dc", group = "🐳 Compose" },
+        { "<leader>dco", nil, desc = "Compose override (dev/prod)" },
 
         { "<leader>b", group = " Buffers" },
         { "<leader>bd", "<cmd>bd<CR>", desc = "Close buffer" },
