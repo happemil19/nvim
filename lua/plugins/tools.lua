@@ -206,6 +206,18 @@ return {
     end,
   },
 
+  -- install with yarn or npm
+  {
+    "iamcco/markdown-preview.nvim",
+    cmd = { "MarkdownPreviewToggle", "MarkdownPreview", "MarkdownPreviewStop" },
+    build = "cd app && yarn install",
+    init = function()
+      vim.g.mkdp_browser = "/usr/bin/vivaldi-stable"
+      vim.g.mkdp_filetypes = { "markdown" }
+    end,
+    ft = { "markdown" },
+  },
+
   -- Which-key - подсказки по комбинациям клавиш
   {
     "folke/which-key.nvim",

@@ -11,6 +11,11 @@ keymap("n", "<leader>e", vim.cmd.Ex, { desc = "File explorer" })
 keymap("n", "<C-s>", "<cmd>w<CR>", { desc = "Save file" })
 keymap("n", "<leader>q", "<cmd>q<CR>", { desc = "Quit" })
 
+-- vim.keymap.set("n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", { desc = "Go to Declaration", noremap = true, silent = true })
+-- vim.keymap.set("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", { desc = "Go to Definition", noremap = true, silent = true })
+
+keymap('t', '<Esc>', '<C-\\><C-n>', { desc = "Quit from Terminal Mode" })
+
 -- Movement between windows
 keymap("n", "<C-h>", "<C-w>h", { desc = "Go to left window" })
 keymap("n", "<C-j>", "<C-w>j", { desc = "Go to lower window" })
