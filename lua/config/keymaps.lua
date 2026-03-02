@@ -14,7 +14,9 @@ keymap("n", "<leader>q", "<cmd>q<CR>", { desc = "Quit" })
 -- vim.keymap.set("n", "gD", "<cmd>lua vim.lsp.buf.declaration()<CR>", { desc = "Go to Declaration", noremap = true, silent = true })
 -- vim.keymap.set("n", "gd", "<cmd>lua vim.lsp.buf.definition()<CR>", { desc = "Go to Definition", noremap = true, silent = true })
 
-keymap('t', '<Esc>', '<C-\\><C-n>', { desc = "Quit from Terminal Mode" })
+-- В терминале Esc не перехватываем: иначе LazyGit (и др.) не получают Esc.
+-- Выход из terminal mode: Alt+\ (чтобы не конфликтовать с tmux на Ctrl+\)
+keymap("t", "<A-\\>", "<C-\\><C-n>", { desc = "Terminal: exit to Normal mode" })
 
 -- Movement between windows
 keymap("n", "<C-h>", "<C-w>h", { desc = "Go to left window" })
