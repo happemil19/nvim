@@ -54,7 +54,46 @@ return {
       vim.keymap.set("n", "<leader>fh", builtin.help_tags, { desc = "Help tags" })
       vim.keymap.set("n", "<leader>fr", builtin.oldfiles, { desc = "Find recent files" })
       vim.keymap.set("n", "<leader>fk", builtin.keymaps, { desc = "Find keymaps" })
+      vim.keymap.set("n", "<leader>fd", builtin.diagnostics, { desc = "Diagnostics (Telescope)" })
     end,
+  },
+
+  -- Trouble.nvim — панель диагностик (LSP + линтеры), быстрая навигация
+  {
+    "folke/trouble.nvim",
+    dependencies = { "nvim-tree/nvim-web-devicons" },
+    keys = {
+      { "<leader>xx", "<cmd>TroubleToggle document_diagnostics<cr>", desc = "Document diagnostics" },
+      { "<leader>xw", "<cmd>TroubleToggle workspace_diagnostics<cr>", desc = "Workspace diagnostics" },
+      { "<leader>xq", "<cmd>TroubleToggle quickfix<cr>", desc = "Quickfix list" },
+      { "<leader>xl", "<cmd>TroubleToggle loclist<cr>", desc = "Location list" },
+    },
+    opts = {
+      mode = "document_diagnostics",
+      auto_open = false,
+      auto_close = false,
+      use_diagnostic_signs = true,
+      action_keys = {
+        close = "q",
+        cancel = "<esc>",
+        refresh = "r",
+        jump = { "<cr>", "<tab>" },
+        open_split = { "<c-x>" },
+        open_vsplit = { "<c-v>" },
+        open_tab = { "<c-t>" },
+        jump_close = { "o" },
+        toggle_mode = "m",
+        switch_severity = "s",
+        toggle_preview = "P",
+        hover = "K",
+        preview = "p",
+        close_folds = { "zM", "zm" },
+        open_folds = { "zR", "zr" },
+        toggle_fold = { "zA", "za" },
+        previous = "k",
+        next = "j",
+      },
+    },
   },
 
   -- Treesitter
@@ -270,6 +309,10 @@ return {
         { "<leader>u", group = " UI" },
         { "<leader>w", group = " Windows" },
         { "<leader>x", group = " Trouble" },
+        { "<leader>xx", "<cmd>TroubleToggle document_diagnostics<cr>", desc = "Document diagnostics" },
+        { "<leader>xw", "<cmd>TroubleToggle workspace_diagnostics<cr>", desc = "Workspace diagnostics" },
+        { "<leader>xq", "<cmd>TroubleToggle quickfix<cr>", desc = "Quickfix" },
+        { "<leader>xl", "<cmd>TroubleToggle loclist<cr>", desc = "Loclist" },
 
         { "<leader>b", group = " Buffers" },
         { "<leader>bd", "<cmd>bd<CR>", desc = "Close buffer" },
@@ -293,6 +336,7 @@ return {
         { "<leader>ff", "<cmd>Telescope find_files<cr>", desc = "Files" },
         { "<leader>fg", "<cmd>Telescope live_grep<cr>", desc = "Grep" },
         { "<leader>fb", "<cmd>Telescope buffers<cr>", desc = "Buffers" },
+        { "<leader>fd", "<cmd>Telescope diagnostics<cr>", desc = "Diagnostics" },
         { "<leader>fh", "<cmd>Telescope help_tags<cr>", desc = "Help" },
         { "<leader>fw", "<cmd>w<cr>", desc = "Save File" },
 
