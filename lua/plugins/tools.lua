@@ -9,7 +9,7 @@ return {
         "nvim-telescope/telescope-fzf-native.nvim",
         build = "make",
         config = function()
-          require("telescope").load_extension("fzf")
+          pcall(require("telescope").load_extension, "fzf")
         end,
       },
     },
@@ -20,6 +20,7 @@ return {
       telescope.setup({
         defaults = {
           layout_strategy = "horizontal",
+          sorting_strategy = "descending", -- лучший матч сверху, список с начала (для dropdown убирает «одна строка»)
           layout_config = {
             height = 0.95,
             width = 0.95
@@ -32,25 +33,31 @@ return {
             },
           },
         },
-        pickers = {
-          find_files = {
-            theme = "dropdown",
-            hidden = true,
-          },
-          live_grep = {
-            theme = "dropdown",
-          },
-          buffers = {
-            theme = "dropdown",
-            sort_lastused = true,
-          },
-        },
+        pickers = {},
       })
 
-      -- Keymaps
-      vim.keymap.set("n", "<leader>ff", builtin.find_files, { desc = "Find files" })
-      vim.keymap.set("n", "<leader>fg", builtin.live_grep, { desc = "Live grep" })
-      vim.keymap.set("n", "<leader>fb", builtin.buffers, { desc = "Find buffers" })
+      -- Find Files / Live grep / Buffers: horizontal, prompt сверху — список с начала, лучший матч сверху.
+      local picker_opts = {
+        sorting_strategy = "ascending",
+        default_selection_index = 1,
+        layout_strategy = "horizontal",
+        layout_config = {
+          prompt_position = "top",
+          height = 0.6,
+          width = 0.85,
+          preview_width = 0.5,
+          preview_cutoff = 1,
+        },
+      }
+      vim.keymap.set("n", "<leader>ff", function()
+        builtin.find_files(vim.tbl_extend("force", { hidden = true }, picker_opts))
+      end, { desc = "Find files" })
+      vim.keymap.set("n", "<leader>fg", function()
+        builtin.live_grep(picker_opts)
+      end, { desc = "Live grep" })
+      vim.keymap.set("n", "<leader>fb", function()
+        builtin.buffers(vim.tbl_extend("force", { sort_lastused = true }, picker_opts))
+      end, { desc = "Buffers" })
       vim.keymap.set("n", "<leader>fh", builtin.help_tags, { desc = "Help tags" })
       vim.keymap.set("n", "<leader>fr", builtin.oldfiles, { desc = "Find recent files" })
       vim.keymap.set("n", "<leader>fk", builtin.keymaps, { desc = "Find keymaps" })
