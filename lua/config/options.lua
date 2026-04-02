@@ -25,6 +25,7 @@ vim.opt.wrap = false
 vim.o.termguicolors = true
 vim.g.gruvbox_italic = 1
 vim.g.gruvbox_contrast_dark = "hard"
+vim.opt.colorcolumn = "120"
 
 -- Navigation
 vim.opt.ruler = true
