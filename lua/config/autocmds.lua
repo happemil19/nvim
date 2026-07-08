@@ -1,5 +1,39 @@
 local M = {}
 
+local function setup_terminal_protocol_fixes()
+  local term_group = vim.api.nvim_create_augroup("terminal_protocol_fixes", { clear = true })
+
+  -- Work around duplicated Enter/Backspace/Tab in some terminals (e.g. Alacritty)
+  -- caused by the kitty keyboard protocol "report event types" mode.
+  --
+  -- References:
+  -- - https://github.com/alacritty/alacritty/issues/8385
+  -- - https://github.com/neovim/neovim/issues/31814
+  local function force_safe_keyboard_mode()
+    -- Workaround: force kitty keyboard protocol into mode 1 (disambiguate only).
+    -- This disables "report event types" (mode 3) which can cause duplicate
+    -- Enter/Backspace/Tab in some terminals.
+    io.stdout:write("\027[>1u")
+  end
+
+  local function restore_keyboard_mode()
+    -- Restore previous mode (pop).
+    io.stdout:write("\027[<1u")
+  end
+
+  vim.api.nvim_create_autocmd({ "VimEnter", "UIEnter", "FocusGained" }, {
+    group = term_group,
+    callback = force_safe_keyboard_mode,
+    desc = "Force kitty keyboard protocol mode 1 (avoid duplicate keys)",
+  })
+
+  vim.api.nvim_create_autocmd("VimLeavePre", {
+    group = term_group,
+    callback = restore_keyboard_mode,
+    desc = "Restore previous keyboard mode",
+  })
+end
+
 local function setup_git_autocmds()
   local git_group = vim.api.nvim_create_augroup("git_integration", { clear = true })
 
@@ -113,6 +147,7 @@ local function setup_indent_autocmds()
 end
 
 function M.setup()
+  setup_terminal_protocol_fixes()
   setup_indent_autocmds()
   setup_git_autocmds()
 end
