@@ -6,31 +6,50 @@ local function setup_terminal_protocol_fixes()
   -- Work around duplicated Enter/Backspace/Tab in some terminals (e.g. Alacritty)
   -- caused by the kitty keyboard protocol "report event types" mode.
   --
+  -- Important: use SET (`=`) not PUSH (`>`). Pushing on every FocusGained
+  -- stacked flags; a single pop on leave left the protocol enabled, which
+  -- breaks less/man j/k in the same Alacritty tab after Neovim exits.
+  --
   -- References:
   -- - https://github.com/alacritty/alacritty/issues/8385
   -- - https://github.com/neovim/neovim/issues/31814
-  local function force_safe_keyboard_mode()
-    -- Workaround: force kitty keyboard protocol into mode 1 (disambiguate only).
-    -- This disables "report event types" (mode 3) which can cause duplicate
-    -- Enter/Backspace/Tab in some terminals.
-    io.stdout:write("\027[>1u")
+  -- - https://sw.kovidgoyal.net/kitty/keyboard-protocol/
+  local function set_keyboard_flags(flags)
+    -- CSI = flags u  → set progressive enhancement (do not push)
+    io.stdout:write(string.format("\027[=%du", flags))
+    io.stdout:flush()
   end
 
-  local function restore_keyboard_mode()
-    -- Restore previous mode (pop).
-    io.stdout:write("\027[<1u")
+  local function enable_safe_keyboard_mode()
+    -- Mode 1: disambiguate only (no key repeat/release reporting)
+    set_keyboard_flags(1)
   end
 
-  vim.api.nvim_create_autocmd({ "VimEnter", "UIEnter", "FocusGained" }, {
+  local function disable_keyboard_protocol()
+    -- Flags 0: disable progressive enhancement for the shell/pager after nvim
+    set_keyboard_flags(0)
+    -- Drain any leftover push stack from older nvim sessions / other apps
+    io.stdout:write("\027[<u")
+    io.stdout:flush()
+  end
+
+  vim.api.nvim_create_autocmd({ "VimEnter", "UIEnter" }, {
     group = term_group,
-    callback = force_safe_keyboard_mode,
-    desc = "Force kitty keyboard protocol mode 1 (avoid duplicate keys)",
+    callback = enable_safe_keyboard_mode,
+    desc = "Enable kitty keyboard mode 1 (disambiguate only)",
   })
 
-  vim.api.nvim_create_autocmd("VimLeavePre", {
+  -- Re-apply after focus only via SET (no stack growth)
+  vim.api.nvim_create_autocmd("FocusGained", {
     group = term_group,
-    callback = restore_keyboard_mode,
-    desc = "Restore previous keyboard mode",
+    callback = enable_safe_keyboard_mode,
+    desc = "Re-apply kitty keyboard mode 1 after focus",
+  })
+
+  vim.api.nvim_create_autocmd({ "VimLeavePre", "VimLeave" }, {
+    group = term_group,
+    callback = disable_keyboard_protocol,
+    desc = "Disable kitty keyboard protocol for the parent terminal",
   })
 end
 
@@ -98,7 +117,7 @@ local function setup_indent_autocmds()
 
   -- 4 пробела
   vim.api.nvim_create_autocmd("FileType", {
-    pattern = { "python", "css", "sh", "dockerfile", "cpp", "perl" },
+    pattern = { "python", "css", "sh", "dockerfile", "cpp", "perl", "c" },
     callback = function()
       set_indentation(4, 4)
     end,
