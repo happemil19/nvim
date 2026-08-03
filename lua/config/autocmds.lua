@@ -105,54 +105,47 @@ end
 local function setup_indent_autocmds()
   local indent_group = vim.api.nvim_create_augroup("custom_indentation", { clear = true })
 
-  -- Функция для применения настроек отступов
-  local function set_indentation(ts, sw)
+  -- expand=false → реальные табы (Go/Makefile)
+  local function set_indentation(ts, sw, expand)
     vim.bo.tabstop = ts
     vim.bo.shiftwidth = sw
+    vim.bo.softtabstop = ts
     vim.bo.autoindent = true
-    vim.bo.expandtab = true
-    -- vim.bo.softtabstop = ts
-    -- vim.bo.smartindent = true
+    vim.bo.expandtab = expand ~= false
   end
 
-  -- 4 пробела
+  -- 4 пробела: PEP 8, rustfmt, типичный C/C++/Perl
   vim.api.nvim_create_autocmd("FileType", {
-    pattern = { "python", "css", "sh", "dockerfile", "cpp", "perl", "c" },
+    pattern = { "python", "c", "cpp", "rust", "perl" },
     callback = function()
       set_indentation(4, 4)
     end,
     group = indent_group,
-    desc = "Set 4-space indentation"
+    desc = "4-space indentation",
   })
 
-  -- 2 пробела
+  -- 2 пробела: Prettier/web, YAML/JSON, StyLua/nvim Lua, shell, Dockerfile
   vim.api.nvim_create_autocmd("FileType", {
-    pattern = { "javascript", "html", "htmldjango", "typescript" },
+    pattern = {
+      "javascript", "typescript", "html", "htmldjango", "css",
+      "json", "jsonc", "yaml", "yml", "lua",
+      "sh", "bash", "zsh", "dockerfile",
+    },
     callback = function()
       set_indentation(2, 2)
     end,
     group = indent_group,
-    desc = "Set 2-space indentation"
+    desc = "2-space indentation",
   })
 
-  -- Можно добавить дополнительные настройки отступов
+  -- Табы: gofmt; Makefile требует табы для рецептов
   vim.api.nvim_create_autocmd("FileType", {
-    pattern = { "lua" },
+    pattern = { "go", "make" },
     callback = function()
-      set_indentation(2, 2)
+      set_indentation(4, 4, false)
     end,
     group = indent_group,
-    desc = "Set 2-space indentation for Lua"
-  })
-
-  -- Makefiles должны использовать табы
-  vim.api.nvim_create_autocmd("FileType", {
-    pattern = { "make" },
-    callback = function()
-      set_indentation(4, 4)
-    end,
-    group = indent_group,
-    desc = "Set tab indentation for Makefiles"
+    desc = "Tab indentation (Go/Makefile)",
   })
 
   -- Автокоманды для Fugitive
