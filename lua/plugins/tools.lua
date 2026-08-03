@@ -103,24 +103,33 @@ return {
     },
   },
 
-  -- Treesitter
+  -- Treesitter (main branch required for Neovim 0.12+)
   {
     "nvim-treesitter/nvim-treesitter",
+    branch = "main",
+    lazy = false,
     build = ":TSUpdate",
     config = function()
-      require("nvim-treesitter.configs").setup({
-        ensure_installed = {
-          "lua", "python", "bash", "json", "rust", "markdown",
-          "yaml", "cpp", "c", "javascript", "typescript", "html", "css"
-        },
-        highlight = {
-          enable = true,
-          additional_vim_regex_highlighting = false,
-        },
-        indent = {
-          enable = true,
-        },
-        auto_install = true,
+      local ts = require("nvim-treesitter")
+      ts.setup({})
+      -- async; no-op if already installed
+      ts.install({
+        "lua", "python", "bash", "json", "rust", "markdown",
+        "yaml", "cpp", "c", "javascript", "typescript", "html", "css",
+      })
+
+      vim.api.nvim_create_autocmd("FileType", {
+        callback = function(args)
+          local lang = vim.treesitter.language.get_lang(args.match)
+          if not lang then
+            return
+          end
+          if not vim.treesitter.language.add(lang) then
+            return
+          end
+          pcall(vim.treesitter.start)
+          vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+        end,
       })
     end,
   },
