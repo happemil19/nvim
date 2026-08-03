@@ -177,9 +177,17 @@ return {
               },
             })
           elseif filetype == "python" and not has_lsp_client(bufnr, "pyright") then
-            -- Поддержка uv: используем интерпретатор из .venv, если есть
-            local venv_python = root_dir and (root_dir .. "/.venv/bin/python") or nil
-            local use_venv = venv_python and vim.fn.filereadable(venv_python) == 1
+            -- .venv or venv (uv / classic)
+            local venv_python = nil
+            if root_dir then
+              for _, name in ipairs({ ".venv", "venv" }) do
+                local candidate = root_dir .. "/" .. name .. "/bin/python"
+                if vim.fn.filereadable(candidate) == 1 then
+                  venv_python = candidate
+                  break
+                end
+              end
+            end
             vim.lsp.start({
               name = "pyright",
               cmd = { "pyright-langserver", "--stdio" },
@@ -188,11 +196,13 @@ return {
               on_attach = on_attach,
               settings = {
                 python = {
-                  pythonPath = use_venv and venv_python or nil,
+                  pythonPath = venv_python,
                   analysis = {
                     typeCheckingMode = "basic",
                     autoSearchPaths = true,
                     useLibraryCodeForTypes = true,
+                    diagnosticMode = "openFilesOnly",
+                    exclude = { "**/.venv", "**/venv", "**/migrations", "**/__pycache__" },
                   },
                 },
               },
