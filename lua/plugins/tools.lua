@@ -129,6 +129,11 @@ return {
           end
           pcall(vim.treesitter.start)
           vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+          -- Structural folds (functions/classes/etc.), open by default
+          vim.wo.foldmethod = "expr"
+          vim.wo.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+          vim.wo.foldlevel = 99
+          vim.wo.foldtext = ""
         end,
       })
     end,
